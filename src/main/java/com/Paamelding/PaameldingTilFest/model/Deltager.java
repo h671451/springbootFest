@@ -1,39 +1,79 @@
 package com.Paamelding.PaameldingTilFest.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import org.springframework.data.annotation.Id;
 
-import javax.annotation.processing.Generated;
-
-
+@Entity
+@Table(schema = "deltager")
 public class Deltager {
-    @Size(min=2, message="Fornavn må inneholde minst 2 tegn")
-    @NotNull(message = "fornavn er obligatorisk")
-    private String fornavn;
-    @Size(min=2, message="Etternavn må inneholde minst 2 tegn")
-    @NotNull(message = "etternavn er obligatorisk")
-    private String etternavn;
     @Pattern(regexp = "^\\d{8}$", message="Mobilnummer må være eksakt 8 sifre" )
     @NotNull(message = "Mobil er obligatorisk")
     @Id
-    private Integer mobil;
+    @Column(name="mobil", length = 8)
+    private String mobil;
+    @Size(min=2, max=20, message="Fornavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
+    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Fornavn kan inneholde bokstaver, bindestrek, og mellomrom. Første tegn skal være en stor bokstav.")
+    @Column(name="fornavn", length = 40)
+    private String fornavn;
+
+    @Size(min=2, max=20, message="Etternavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
+    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt.")
+    @Column(name="etternavn", length = 40)
+    private String etternavn;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="kjonn", length=1)
     @NotNull(message = "kjonn er obligatorisk")
     private Kjonn kjonn;
+    @NotNull(message = "passord er obligatorisk")
 
-    private String passord;
+
+    @Embedded
+    private Passord passord;
+
+    @Transient
+    private String plaintextPassword;
+
+    @Transient
+    private String plaintextPasswordRepeat;
+
 
     public Deltager() {
 
     }
 
-    public Deltager(String fornavn, String etternavn, Integer mobil, String passord, Kjonn kjonn) {
+    public Deltager(String fornavn, String etternavn, String mobil,  Kjonn kjonn, Passord passord) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.mobil = mobil;
-        this.passord = passord;
         this.kjonn = kjonn;
+        this.passord = passord;
+    }
+
+    public String getPlaintextPassword() {
+        return plaintextPassword;
+    }
+
+    public void setPlaintextPassword(String plaintextPassword) {
+        this.plaintextPassword = plaintextPassword;
+    }
+
+    public String getPlaintextPasswordRepeat() {
+        return plaintextPasswordRepeat;
+    }
+
+    public void setPlaintextPasswordRepeat(String plaintextPasswordRepeat) {
+        this.plaintextPasswordRepeat = plaintextPasswordRepeat;
+    }
+
+    public Passord getPassord() {
+        return passord;
+    }
+
+    public void setPassord(Passord passord) {
+        this.passord = passord;
     }
 
     public String getFornavn() {
@@ -52,21 +92,14 @@ public class Deltager {
         this.etternavn = etternavn;
     }
 
-    public Integer getMobil() {
+    public String getMobil() {
         return mobil;
     }
 
-    public void setMobil(Integer mobil) {
+    public void setMobil(String mobil) {
         this.mobil = mobil;
     }
 
-    public String getPassord() {
-        return passord;
-    }
-
-    public void setPassord(String passord) {
-        this.passord = passord;
-    }
 
     public Kjonn getKjonn() {
         return kjonn;
@@ -75,6 +108,7 @@ public class Deltager {
     public void setKjonn(Kjonn kjonn) {
         this.kjonn = kjonn;
     }
+
 
 
     public enum Kjonn {

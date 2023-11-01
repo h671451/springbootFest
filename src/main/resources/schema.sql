@@ -1,8 +1,8 @@
-CREATE TABLE if NOT EXISTS deltager (
- mobil CHARACTER (8) PRIMARY KEY,
- hash CHARACTER (64) NOT NULL,
- salt CHARACTER (32) NOT NULL,
- fornavn CHARACTER VARYING (40),
- etternavn CHARACTER VARYING (40),
- kjonn CHARACTER VARYING (6)
+CREATE TABLE IF NOT EXISTS deltager (
+    mobil VARCHAR(8) PRIMARY KEY,
+    hash VARCHAR(64) NOT NULL,
+    salt VARCHAR(32) NOT NULL,
+    fornavn VARCHAR(40),
+    etternavn VARCHAR(40),
+    kjonn CHAR CHECK (kjonn='MALE' OR kjonn='FEMALE')
 );
