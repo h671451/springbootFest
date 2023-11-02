@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; /* Removes default margin */
+    overflow: hidden; /* Prevents scroll on body */
+}
+
+.menu-bar {
+    background-color: #333;
+    height: 100vh; /* Makes the menu cover the entire viewport height */
+    width: 100vw; /* Makes the menu cover the entire viewport width */
+    display: flex; /* Uses flexbox to center the list */
+    align-items: center; /* Centers list vertically */
+    justify-content: center; /* Centers list horizontally */
+}
+
+.menu-bar ul {
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+    text-align: center; /* Centers the menu items */
+}
+
+.menu-bar li {
+    margin: 10px 0; /* Spaces out the menu items vertically */
+}
+
+.menu-bar li a {
+    display: block;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 24px; /* Makes font larger for full screen menu */
+}
+
+.menu-bar li a:hover {
+    background-color: #111;
+}

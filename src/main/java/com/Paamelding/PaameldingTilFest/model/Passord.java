@@ -1,14 +1,19 @@
 package com.Paamelding.PaameldingTilFest.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Passord {
-    @Column(name="hash", length=64)
+    private String passord; // This should store the plaintext password temporarily during registration
 
+    @Column(name = "hash", length = 64, nullable = false)
     private String hash;
-    @Column(name="salt", length=32)
 
+    @Column(name = "salt", length = 32, nullable = false)
     private String salt;
+
+    // Getter and Setter methods for hash and salt
 
     public String getHash() {
         return hash;
@@ -27,4 +32,12 @@ public class Passord {
     }
 
 
+    public String getPassord() {
+        return passord;
+
+    }
+
+    public void setPassord(String passord) {
+        this.passord = passord;
+    }
 }
