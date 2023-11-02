@@ -49,17 +49,10 @@ public class PaameldingController {
 
 
     @PostMapping("/paamelding")
-    public String handlePaamelding(@Valid @ModelAttribute("Deltager") Deltager deltager, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String handlePaamelding( @RequestParam String mobil,  @RequestParam String fornavn,  @RequestParam String etternavn,  @RequestParam String passord,  @RequestParam String repetertpassord,  @RequestParam String kjonn, RedirectAttributes redirectAttributes) {
 
-        if(!deltager.getPlaintextPassword().equals(deltager.getPlaintextPasswordRepeat())){
-            bindingResult.addError(new FieldError("Deltager", "plaintextPasswordRepeat", "Passwords do not match"));
-            return "/paamelding";
-        }
 
-        if (bindingResult.hasErrors()){
-            return "/paamelding";
-        }
-        paameldingService.registerUser(deltager.getMobil(), deltager.getPassord().getPassord());
+        Deltager deltager = paameldingService.registerUser(mobil, fornavn,etternavn, passord, repetertpassord, kjonn);
         redirectAttributes.addFlashAttribute("deltager", deltager);
 
         redirectAttributes.addFlashAttribute("message", "Registration successful!");
