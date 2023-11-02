@@ -35,24 +35,11 @@ public class PaameldingController {
         return "paamelding";
     }
 
-    @GetMapping("/innlogging")
-    public String innloggingSkjema() {
-        return "innlogging";
-    }
-
-    @GetMapping("/paameldt")
-    public String paameldtSkjema() {
-        return "paameldt";
-    }
-
-
-//endringer
 
     @PostMapping("/paamelding")
-    public String handlePaamelding( @RequestParam String mobil,  @RequestParam String fornavn,  @RequestParam String etternavn,  @RequestParam String passord,  @RequestParam String repetertpassord,  @RequestParam String kjonn, RedirectAttributes redirectAttributes) {
+    public String handlePaamelding( @RequestParam String fornavn,  @RequestParam String etternavn, @RequestParam String mobil, @RequestParam String passord,  @RequestParam String repetertpassord,  @RequestParam String kjonn, RedirectAttributes redirectAttributes) {
 
-
-        Deltager deltager = paameldingService.registerUser(mobil, fornavn,etternavn, passord, repetertpassord, kjonn);
+        Deltager deltager = paameldingService.registerUser(fornavn,etternavn, mobil, passord, repetertpassord, kjonn);
         redirectAttributes.addFlashAttribute("deltager", deltager);
 
         redirectAttributes.addFlashAttribute("message", "Registration successful!");
@@ -60,24 +47,6 @@ public class PaameldingController {
         return "redirect:/paameldt";
     }
 
-    @PostMapping("/innlogging")
-    public String handleInnlogging(@RequestParam String mobil, @RequestParam String rawPassword,  RedirectAttributes redirectAttributes, BindingResult bindingResult) {
-
-        if (paameldingService.authenticateUser(mobil, rawPassword)) {
-            return "redirect:/deltagerliste";
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Invalid mobile number or password.");
-            return "redirect:/innlogging";
-        }
-    }
-
-
-    @GetMapping("/deltagerliste")
-    public String deltagerlisteSkjema(Model model) {
-        List<Deltager> deltagerList = paameldingService.finnAlleDeltager();
-        model.addAttribute("deltagers", deltagerList);
-        return "deltagerliste";
-    }
 
 
 }

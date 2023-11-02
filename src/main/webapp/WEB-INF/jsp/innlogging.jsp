@@ -10,24 +10,15 @@
 <body>
 	<h2>Logg inn</h2>
 
-	    <!-- Display dynamic messages based on the scenario -->
-        <c:choose>
-            <c:when test="${not empty errorMessage}">
-                <p style="color:red;">${errorMessage}</p>
-            </c:when>
-            <c:when test="${not empty successMessage}">
-                <p style="color:green;">${successMessage}</p>
-            </c:when>
-        </c:choose
 
 	<p style="color:red;">Du er logget ut</p>
-	<form method="post" action="/deltagerliste">
+	<form method="post" action="/innlogging">
 		<fieldset>
 			<label for="mobil">Mobil:</label>
-			 <input type="text" name="mobil"  />
+			 <input type="text" name="mobil"  value =""/>
 
 			<label for="passord">Passord:</label>
-			<input type="password" name="passord" />
+			<input type="password" name="passord" value =""/>
 
 			<br><br><button type="submit">Logg inn</button>
 		</fieldset>

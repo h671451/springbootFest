@@ -8,11 +8,6 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(schema = "deltager")
 public class Deltager {
-    //@Pattern(regexp = "^\\d{8}$", message="Mobilnummer må være eksakt 8 sifre" )
-    //@NotNull(message = "Mobil er obligatorisk")
-    @Id
-    @Column(name="mobil", length = 8)
-    private String mobil;
     //@Size(min=2, max=20, message="Fornavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
     //@Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Fornavn kan inneholde bokstaver, bindestrek, og mellomrom. Første tegn skal være en stor bokstav.")
     @Column(name="fornavn", length = 40)
@@ -22,6 +17,12 @@ public class Deltager {
     //@Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt.")
     @Column(name="etternavn", length = 40)
     private String etternavn;
+
+    //@Pattern(regexp = "^\\d{8}$", message="Mobilnummer må være eksakt 8 sifre" )
+    //@NotNull(message = "Mobil er obligatorisk")
+    @Id
+    @Column(name="mobil", length = 8)
+    private String mobil;
 
     @Enumerated(EnumType.STRING)
     @Column(name="kjonn", length=32)
@@ -39,12 +40,12 @@ public class Deltager {
 
     }
 
-    public Deltager(String fornavn, String etternavn, String mobil,  Kjonn kjonn, Passord passord) {
+    public Deltager(String fornavn, String etternavn, String mobil, Passord passord,Kjonn kjonn) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.mobil = mobil;
-        this.kjonn = kjonn;
         this.passord = passord;
+        this.kjonn = kjonn;
     }
 
 

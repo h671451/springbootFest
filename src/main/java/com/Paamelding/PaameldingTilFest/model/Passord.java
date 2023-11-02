@@ -5,7 +5,6 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Passord {
-    private String passord; // This should store the plaintext password temporarily during registration
 
     @Column(name = "hash", length = 64, nullable = false)
     private String hash;
@@ -32,12 +31,5 @@ public class Passord {
     }
 
 
-    public String getPassord() {
-        return passord;
 
-    }
-
-    public void setPassord(String passord) {
-        this.passord = passord;
-    }
 }

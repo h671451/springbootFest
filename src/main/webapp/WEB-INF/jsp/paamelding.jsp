@@ -40,6 +40,7 @@
             <label>Passord repetert</label>
             <input type="password" name="repetertpassord" value ="" minlength="4" required />
             <span id="passwordError" style="color:red; display:none;">Passwords do not match!</span>
+
             <c:if test="${bindingResult.hasFieldErrors('plaintextPasswordRepeat')}">
                <span style="color:red;">${bindingResult.getFieldError('plaintextPasswordRepeat').defaultMessage}</span>
             </c:if>

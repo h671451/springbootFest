@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 
@@ -22,9 +21,7 @@ public class PaameldingService {
     private static final Logger logger = LoggerFactory.getLogger(PaameldingService.class);
 
 
-
-
-    public Deltager registerUser(String mobil, String fornavn, String etternavn, String password, String repetertpassord, String kjonn) {
+    public Deltager registerUser(String fornavn, String etternavn, String mobil,  String password, String repetertpassord, String kjonn) {
         String salt = passordService.genererTilfeldigSalt();
         String hashedPassword = passordService.hashMedSalt(password, salt);
 
@@ -39,7 +36,7 @@ public class PaameldingService {
             kjonnet = Deltager.Kjonn.MALE;
         }
 
-        Deltager deltager = new Deltager(mobil,fornavn,etternavn,kjonnet,passord);
+        Deltager deltager = new Deltager(fornavn,etternavn, mobil,passord,kjonnet);
 
         return deltagerRepo.save(deltager);
     }
@@ -53,24 +50,20 @@ public class PaameldingService {
 
         return passordService.erKorrektPassord(password, deltager.getPassord().getSalt(), deltager.getPassord().getHash());
     }
+
+
+
     public Deltager findByMobil(String mobil) {
         return deltagerRepo.findByMobil(mobil);
     }
 
+    public Deltager findByUsername(String username) {
+        return findByMobil(username);
+    }
+
     public List<Deltager> finnAlleDeltager() {
-        return deltagerRepo.findAll();
+        return deltagerRepo.findAllByOrderByFornavnAsc();
     }
-
-    public Optional<Deltager> getDeltagerById(String mobil) {
-        return deltagerRepo.findById(mobil);
-    }
-
-
-
-
-
-
-
 
 
 }

@@ -9,7 +9,7 @@
 	<title>Deltagerliste</title>
 </head>
 <body>
-<p>Innlogget som: ${loggedInUser.mobil} / ${loggedInUser.fornavn} ${loggedInUser.etternavn}</p>
+<p>Innlogget som: ${loggedInDeltager.mobil} / ${loggedInDeltager.fornavn} ${loggedInDeltager.etternavn}</p>
 	<h2>Deltagerliste</h2>
 	<table>
         <tr>
@@ -18,17 +18,29 @@
             <th align="left">Mobil</th>
         </tr>
 
-        <c:forEach var="deltager" items="${deltagers}">
-            <tr <c:if test="${deltager.mobil == loggedInMobil}">style="background-color:#aaffaa;"</c:if>>
+<c:forEach var="deltager" items="${deltagers}">
+    <c:choose>
+        <c:when test="${deltager.mobil == loggedInDeltager.mobil}">
+            <tr style= "background-color:#aaffaa" >
                 <td align="center">${deltager.kjonn == 'FEMALE' ? '&#9792;' : '&#9794;'}</td>
-                <td>${deltager.navn}</td>
+                <td>${deltager.fornavn} ${deltager.etternavn}</td>
                 <td>${deltager.mobil}</td>
             </tr>
-        </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <td align="center">${deltager.kjonn == 'FEMALE' ? '&#9792;' : '&#9794;'}</td>
+                <td>${deltager.fornavn} ${deltager.etternavn}</td>
+                <td>${deltager.mobil}</td>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+</c:forEach>
+
 
 	</table>
 	<br>
-	<form action="/innlogging" method="post">
+	<form action="/logout" method="POST">
 	   <button type="submit">Logg ut</button>
 	</form>
 </body>
