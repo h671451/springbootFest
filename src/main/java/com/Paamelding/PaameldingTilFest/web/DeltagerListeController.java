@@ -20,15 +20,15 @@ public class DeltagerListeController {
     private PassordService passordService;
     @GetMapping("/deltagerliste")
     public String deltagerlisteSkjema(Model model, HttpServletRequest request) {
+
         List<Deltager> deltagerList = paameldingService.finnAlleDeltager();
         model.addAttribute("deltagers", deltagerList);
 
         // Assuming you save mobile as "userMobil" in session during login.
-        String userMobil = (String) request.getSession().getAttribute("userMobil");
+        String userMobil = (String) request.getSession().getAttribute("brukerNummer");
         if (userMobil != null) {
             Deltager loggedInDeltager = paameldingService.findByMobil(userMobil);
             model.addAttribute("loggedInDeltager", loggedInDeltager);
-
         }
 
         return "deltagerliste";

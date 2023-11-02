@@ -10,8 +10,16 @@
 <body>
 	<h2>Logg inn</h2>
 
+    <c:if test="${not empty error}">
+        <div>
+            ${error}
+        </div>
+    </c:if>
 
-	<p style="color:red;">Du er logget ut</p>
+<c:if test="${not empty loggedOut}">
+    <p style="color:red;">Du er logget ut</p>
+</c:if>
+
 	<form method="post" action="/innlogging">
 		<fieldset>
 			<label for="mobil">Mobil:</label>

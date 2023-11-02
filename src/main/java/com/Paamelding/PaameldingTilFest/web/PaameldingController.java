@@ -9,13 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 
@@ -37,9 +35,21 @@ public class PaameldingController {
 
 
     @PostMapping("/paamelding")
-    public String handlePaamelding( @RequestParam String fornavn,  @RequestParam String etternavn, @RequestParam String mobil, @RequestParam String passord,  @RequestParam String repetertpassord,  @RequestParam String kjonn, RedirectAttributes redirectAttributes) {
+    public String handlePaamelding(
+                                   @RequestParam String fornavn, @RequestParam String etternavn, @RequestParam String mobil,
+                                   @RequestParam String passord, @RequestParam String repetertpassord, @RequestParam String kjonn,
+                                   RedirectAttributes redirectAttributes) {
 
-        Deltager deltager = paameldingService.registerUser(fornavn,etternavn, mobil, passord, repetertpassord, kjonn);
+        if (paameldingService.existsById(mobil)) {
+            throw new IllegalArgumentException("Mobile number already registered");
+        }
+
+        if(!Objects.equals(passord, repetertpassord)){
+            redirectAttributes.addFlashAttribute("error", "Passord matcher ikke");
+            return "redirect:/paamelding";
+        }
+
+        Deltager deltager = paameldingService.registerUser(fornavn,etternavn, mobil, passord, kjonn);
         redirectAttributes.addFlashAttribute("deltager", deltager);
 
         redirectAttributes.addFlashAttribute("message", "Registration successful!");

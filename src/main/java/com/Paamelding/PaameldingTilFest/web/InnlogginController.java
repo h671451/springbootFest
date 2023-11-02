@@ -29,22 +29,14 @@ public class InnlogginController {
     public String handleInnlogging(@RequestParam String mobil, @RequestParam String passord, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
         if (paameldingService.authenticateUser(mobil, passord)) {
-            request.getSession().setAttribute("userMobil", mobil); // Save the mobile number in the session
+            request.getSession().setAttribute("brukerNummer", mobil); // Save the mobile number in the session
             return "redirect:/deltagerliste";
         } else {
             redirectAttributes.addFlashAttribute("error", "Invalid mobile number or password.");
-            System.out.println("feil passord");
             return "redirect:/innlogging";
         }
     }
 
 
-    @PostMapping("/logout")
-    public String handleLogout(HttpServletRequest request) {
-        // Invalidate the session (if you're using sessions)
-        request.getSession().invalidate();
 
-        // Redirect back to the login page
-        return "redirect:/innlogging";
-    }
 }

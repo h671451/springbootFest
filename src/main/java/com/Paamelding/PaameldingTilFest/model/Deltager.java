@@ -8,28 +8,24 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(schema = "deltager")
 public class Deltager {
-    //@Size(min=2, max=20, message="Fornavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
-    //@Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Fornavn kan inneholde bokstaver, bindestrek, og mellomrom. Første tegn skal være en stor bokstav.")
+    @Size(min=2, max=20, message="Fornavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
+    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Fornavn kan inneholde bokstaver, bindestrek, og mellomrom. Første tegn skal være en stor bokstav.")
     @Column(name="fornavn", length = 40)
     private String fornavn;
 
-    //@Size(min=2, max=20, message="Etternavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
-    //@Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt.")
+    @Size(min=2, max=20, message="Etternavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
+    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt.")
     @Column(name="etternavn", length = 40)
     private String etternavn;
 
-    //@Pattern(regexp = "^\\d{8}$", message="Mobilnummer må være eksakt 8 sifre" )
-    //@NotNull(message = "Mobil er obligatorisk")
+    @Pattern(regexp = "^\\d{8}$", message="Mobilnummer må være eksakt 8 sifre" )
     @Id
     @Column(name="mobil", length = 8)
     private String mobil;
 
     @Enumerated(EnumType.STRING)
     @Column(name="kjonn", length=32)
-    //@NotNull(message = "kjonn er obligatorisk")
     private Kjonn kjonn;
-    //@NotNull(message = "passord er obligatorisk")
-
 
     @Embedded
     private Passord passord;
