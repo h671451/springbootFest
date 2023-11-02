@@ -46,7 +46,7 @@ public class PaameldingController {
     }
 
 
-
+//endringer
 
     @PostMapping("/paamelding")
     public String handlePaamelding( @RequestParam String mobil,  @RequestParam String fornavn,  @RequestParam String etternavn,  @RequestParam String passord,  @RequestParam String repetertpassord,  @RequestParam String kjonn, RedirectAttributes redirectAttributes) {
