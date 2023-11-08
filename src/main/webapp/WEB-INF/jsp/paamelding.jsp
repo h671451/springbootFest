@@ -11,19 +11,13 @@
 
 <body>
 	<h2>Påmelding</h2>
-	    <c:if test="${not empty error}">
-            <div>
-                <p style="color:red;"> ${error} </p>
-            </div>
-        </c:if>
             <c:if test="${not empty feilmeldinger}">
                 <div>
-                    <p style="color:red;" ${feilmeldinger}></p>
+                    <p style="color:red;" >${feilmeldinger}</p>
                 </div>
             </c:if>
 
-
-	<form method="post" action="/paamelding" >
+	<form id="paameldingForm" method="post" action="/paamelding" >
 		<fieldset>
 		
             <label>Fornavn</label>
@@ -39,10 +33,10 @@
 
 
             <label>Passord</label>
-            <input type="password" name="passord" value = "" minlength="4" required/>
+            <input type="password" id="passord" name="passord" value = "" minlength="4" required/>
 
             <label>Passord repetert</label>
-            <input type="password" name="repetertpassord" value ="" minlength="4" required />
+            <input type="password" id="repetertpassord" name="repetertpassord" value ="" minlength="4" required />
 
 
 			<label>Kjønn</label> 
@@ -53,6 +47,16 @@
 		</fieldset>
 	</form>
 
-
+    <script>
+        document.getElementById('paameldingForm').onsubmit = function() {
+            var passord = document.getElementById('passord').value;
+            var repetertpassord = document.getElementById('repetertpassord').value;
+            if (passord != repetertpassord) {
+                alert('Passordene må være like!');
+                return false; // Prevent form submission
+            }
+            return true;
+        };
+    </script>
 </body>
 </html>

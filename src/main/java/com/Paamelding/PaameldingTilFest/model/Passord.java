@@ -1,15 +1,10 @@
 package com.Paamelding.PaameldingTilFest.model;
 
-import com.Paamelding.PaameldingTilFest.Service.PassordService;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Embeddable
 public class Passord {
-    @Autowired
-    PassordService passordService;
-
 
     @Column(name = "hash", length = 64, nullable = false)
     private String hash;

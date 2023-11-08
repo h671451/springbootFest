@@ -8,17 +8,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
-import java.util.List;
-import java.util.Objects;
+
 
 
 
@@ -51,13 +48,13 @@ public class PaameldingController {
 
     @PostMapping("/paamelding") //Henter info input fra paamelding.jsp
     public String handlePaamelding(
-                                   @RequestParam String passord, @RequestParam String repetertpassord,
-                                   RedirectAttributes redirectAttributes, Model model,
+                                   @RequestParam String passord,
+                                   RedirectAttributes redirectAttributes,
                                    @Valid @ModelAttribute Deltager deltager,
                                    BindingResult bindingResult) {
+        String feilmeldinger;
 
         if (bindingResult.hasErrors()) {
-
             bindingResult.getAllErrors().forEach(error -> {
                 if (error instanceof FieldError) {
                     FieldError fieldError = (FieldError) error;
@@ -66,26 +63,20 @@ public class PaameldingController {
                     System.out.println("Object error: " + error.getDefaultMessage());
                 }
             });
-            String feilmeldinger = bindingResult.getAllErrors().stream()
+
+            feilmeldinger = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .reduce("", (f, e) -> f + e + "<br>");
 
             redirectAttributes.addFlashAttribute("feilmeldinger", feilmeldinger);
 
-            System.out.println("funker ikke");
+            return "redirect:/paamelding";
+        } else if (paameldingService.existsByMobil(deltager.getMobil())) { //sjekker om det eksisterer allerede nummeret
+            feilmeldinger = "mobil eksisterer allerede";
+            redirectAttributes.addFlashAttribute("feilmeldinger", feilmeldinger);
             return "redirect:/paamelding";
         }
 
-        if (paameldingService.existsByMobil(deltager.getMobil())) { //sjekker om det eksisterer allerede nummeret
-            String feildmeldinger = "mobil eksisterer allerede";
-            redirectAttributes.addFlashAttribute("feilmeldinger", feildmeldinger);
-            return "redirect:/paamelding";
-        }
-
-        if(!Objects.equals(passord, repetertpassord)){ //sjekker om passord er like
-            redirectAttributes.addFlashAttribute("error", "Passord matcher ikke");
-            return "redirect:/paamelding";
-        }
 
         Deltager deltagere = paameldingService.registerUser(
                 deltager.getFornavn(),
