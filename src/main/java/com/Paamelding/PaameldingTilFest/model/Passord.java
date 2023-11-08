@@ -1,10 +1,15 @@
 package com.Paamelding.PaameldingTilFest.model;
 
+import com.Paamelding.PaameldingTilFest.Service.PassordService;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Embeddable
 public class Passord {
+    @Autowired
+    PassordService passordService;
+
 
     @Column(name = "hash", length = 64, nullable = false)
     private String hash;
@@ -12,7 +17,9 @@ public class Passord {
     @Column(name = "salt", length = 32, nullable = false)
     private String salt;
 
-    // Getter and Setter methods for hash and salt
+
+
+
 
     public String getHash() {
         return hash;

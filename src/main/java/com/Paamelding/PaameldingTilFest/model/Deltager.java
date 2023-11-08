@@ -1,20 +1,21 @@
 package com.Paamelding.PaameldingTilFest.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(schema = "deltager")
 public class Deltager {
+
     @Size(min=2, max=20, message="Fornavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
     @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Fornavn kan inneholde bokstaver, bindestrek, og mellomrom. Første tegn skal være en stor bokstav.")
     @Column(name="fornavn", length = 40)
     private String fornavn;
 
     @Size(min=2, max=20, message="Etternavn må være mellom 2 og 20 tegn og starte med en stor bokstav")
-    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt.")
+    @Pattern(regexp = "^[A-Z][a-zA-ZæøåÆØÅ-]+$", message="Etternavn kan inneholde bokstaver og bindestrek. Ingen mellomrom tillatt. Første tegn skal være en stor bokstav.")
     @Column(name="etternavn", length = 40)
     private String etternavn;
 
@@ -32,6 +33,9 @@ public class Deltager {
 
 
 
+
+
+
     public Deltager() {
 
     }
@@ -46,12 +50,9 @@ public class Deltager {
 
 
 
+
     public Passord getPassord() {
         return passord;
-    }
-
-    public void setPassord(Passord passord) {
-        this.passord = passord;
     }
 
     public String getFornavn() {
@@ -78,7 +79,6 @@ public class Deltager {
         this.mobil = mobil;
     }
 
-
     public Kjonn getKjonn() {
         return kjonn;
     }
@@ -87,7 +87,9 @@ public class Deltager {
         this.kjonn = kjonn;
     }
 
-
+    public void setPassord(Passord passord) {
+        this.passord = passord;
+    }
 
     public enum Kjonn {
         MALE,

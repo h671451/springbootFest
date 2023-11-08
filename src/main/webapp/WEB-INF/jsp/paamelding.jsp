@@ -16,21 +16,26 @@
                 <p style="color:red;"> ${error} </p>
             </div>
         </c:if>
+            <c:if test="${not empty feilmeldinger}">
+                <div>
+                    <p style="color:red;" ${feilmeldinger}></p>
+                </div>
+            </c:if>
 
-	<form method="post" action="/paamelding">
+
+	<form method="post" action="/paamelding" >
 		<fieldset>
 		
             <label>Fornavn</label>
-            <input type="text" name="fornavn" value="" pattern="^[A-Z][a-zA-ZæøåÆØÅ- ]{1,19}$" required />
+            <input type="text" name="fornavn" value=""  required />
 
 
             <label>Etternavn</label>
-            <input type="text" name="etternavn" value="" pattern="^[A-Z][a-zA-ZæøåÆØÅ- ]{1,19}$" required />
+            <input type="text" name="etternavn" value="" required />
 
 
             <label>Mobil (8 siffer)</label>
-            <input type="text" name="mobil" value="" pattern="^[A-Z][a-zA-ZæøåÆØÅ- ]{1,19}$" required />
-
+            <input type="text" name="mobil" value=""  required />
 
 
             <label>Passord</label>

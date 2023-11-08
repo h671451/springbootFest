@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DeltagerRepo extends JpaRepository<Deltager,String> {
     Deltager findByMobil(String mobil);
+    boolean existsByMobil(String mobil);
+
     List<Deltager> findAllByOrderByFornavnAsc();
 
 }

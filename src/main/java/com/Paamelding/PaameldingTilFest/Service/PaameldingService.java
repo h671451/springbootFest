@@ -3,14 +3,14 @@ package com.Paamelding.PaameldingTilFest.Service;
 import com.Paamelding.PaameldingTilFest.model.Deltager;
 import com.Paamelding.PaameldingTilFest.model.Passord;
 import com.Paamelding.PaameldingTilFest.repository.DeltagerRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 
+import java.rmi.UnexpectedException;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 
@@ -19,14 +19,18 @@ public class PaameldingService {
     private DeltagerRepo deltagerRepo;
     @Autowired PassordService passordService;
 
+    public Passord hashedPassord(String passord){
+        String salt = passordService.genererTilfeldigSalt();
+        String hashedPassword = passordService.hashMedSalt(passord, salt);
+
+        Passord passordet = new Passord();
+        passordet.setHash(hashedPassword);
+        passordet.setSalt(salt);
+        return passordet;
+    }
 
     public Deltager registerUser(String fornavn, String etternavn, String mobil,  String password, String kjonn) {
-        String salt = passordService.genererTilfeldigSalt();
-        String hashedPassword = passordService.hashMedSalt(password, salt);
 
-        Passord passord = new Passord();
-        passord.setHash(hashedPassword);
-        passord.setSalt(salt);
         Deltager.Kjonn kjonnet;
 
 
@@ -37,9 +41,11 @@ public class PaameldingService {
         }
 
 
-        Deltager deltager = new Deltager(fornavn,etternavn, mobil,passord,kjonnet);
+        Deltager deltager = new Deltager(fornavn,etternavn, mobil,hashedPassord(password),kjonnet);
+
 
         return deltagerRepo.save(deltager);
+
     }
 
     public boolean authenticateUser(String mobil, String password) {
@@ -62,7 +68,7 @@ public class PaameldingService {
     }
 
 
-    public boolean existsById(String mobil) {
-        return false;
+    public boolean existsByMobil(String mobil) {
+        return deltagerRepo.existsByMobil(mobil);
     }
 }
